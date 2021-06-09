@@ -1,0 +1,14 @@
+/home/check0ut/Projects/task_terminal_program/target/rls/debug/deps/csv-33ee8dd38eebe501.rmeta: /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/lib.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/byte_record.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/cookbook.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/deserializer.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/error.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/reader.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/serializer.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/string_record.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/tutorial.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/writer.rs
+
+/home/check0ut/Projects/task_terminal_program/target/rls/debug/deps/csv-33ee8dd38eebe501.d: /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/lib.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/byte_record.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/cookbook.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/deserializer.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/error.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/reader.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/serializer.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/string_record.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/tutorial.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/writer.rs
+
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/lib.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/byte_record.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/cookbook.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/deserializer.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/error.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/reader.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/serializer.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/string_record.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/tutorial.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.1.6/src/writer.rs:
