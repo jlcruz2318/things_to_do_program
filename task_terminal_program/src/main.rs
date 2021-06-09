@@ -1,6 +1,3 @@
-// use chrono::DateTime  For Datetime reference later
-
-
 use std::convert::TryInto;
 use std::error::Error;
 use std::io;
@@ -10,42 +7,12 @@ use termion::{event::Key, input::MouseTerminal, raw::IntoRawMode, screen::Altern
 
 use tui::Terminal;
 use tui::backend::TermionBackend;
-use tui::widgets::{Widget, Block, Borders, BorderType};
+use tui::widgets::{Block, Borders, List, ListItem, ListState};
 use tui::layout::{Layout, Constraint, Direction};
-use tui::style::{Style, Color};
+use tui::style::{Color, Modifier, Style};
 
 // Come back and add the way that will be used to navigate around the terminal
 enum HotkeyOptions {
-}
-
-#[derive(Debug)]
-enum TaskStatus {
-    Open,
-    Deleted,
-    Closed
-}
-
-#[derive(Debug)]
-struct ThingToDO {
-    description: String,
-    status: TaskStatus,
-    // started_date: String, page 88 rust book - come back and make a function that gets the time open
-    // updated_date: DateTime, Update this later for postgres - above is a place holder - change that to datetime
-}
-
-impl ThingToDO {
-
-    fn testinggg(&self) -> String {
-        self.description.to_string()
-    }
-
-    fn is_done(&self) -> bool {
-        match self.status {
-            TaskStatus::Open => false,
-            TaskStatus::Deleted => false,
-            TaskStatus::Closed => true,
-        }
-    }
 }
 
 
@@ -58,8 +25,6 @@ fn add_thing_to_do(task_list: &mut Vec<ThingToDO>) {
     std::io::stdin().read_line(&mut description1)
         .expect("Failed to read line");
     description1.pop();
-
-    let status1 = TaskStatus::Open;
 
     // Push to list
     task_list.push(ThingToDO {description:description1, status:status1});
@@ -104,50 +69,71 @@ fn delete_thing_to_do(task_list: &mut Vec<ThingToDO>) {
     // finish this later - make this log a completion date - i had questions about editing a Vec<ThingToDo>
 
 
-fn main() -> Result<(), io::Error>{
+
+
+// TUI - LIST APP STRUCT //
+/// This struct holds the current state of the app. In particular, it has the `items` field which is a wrapper
+/// around `ListState`. Keeping track of the items state let us render the associated widget with its state
+/// and have access to features such as natural scrolling.
+///
+/// Check the event handling at the bottom to see how to change the state on incoming events.
+/// Check the drawing logic for items on how to specify the highlighting style for selected items.
+
+fn main() -> Result<(), std::io::Error>{
 
     let stdout = std::io::stdout().into_raw_mode()?;
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
-    terminal.draw(|f| {
-        let chunks = Layout::default()
-            .direction(Direction::Vertical)
-            .margin(1)
-            .constraints(
-                [
-                    Constraint::Percentage(70),
-                    Constraint::Percentage(20),
-                ].as_ref()
-            )
-            .split(f.size());
-        let block = Block::default()
-             .title("Block")
-             .borders(Borders::ALL)
-             .border_style(Style::default().fg(Color::White))
-             .border_type(BorderType::Rounded);
-        f.render_widget(block, chunks[0]);
-        let block = Block::default()
-             .title("Block 2")
-             .borders(Borders::ALL);
-        f.render_widget(block, chunks[1]);
-    })?;
-    Ok(())
-        
-    // let mut all_things_list :Vec<ThingToDO> = Vec::new();
+    let mut state = ListState::default();
+    loop {
+        terminal.draw(|f| {
+            let chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .margin(1)
+                .constraints(
+                    [
+                        Constraint::Percentage(70),
+                        Constraint::Percentage(20),
+                    ].as_ref()
+                )
+                .split(f.size());
 
-    // let thing = ThingToDO { description: "test".to_string(), status: TaskStatus::Closed };
-    // println!("---------------------------------------------------------------");
-    // println!("The new thing to do is : {:?}", thing);
-    // println!("The status is {} - F means it is not 'done' - if the status above is 'Closed' then this should be 'true'", thing.is_done());
-    // println!("The desc is {}", thing.testinggg());
-    // println!("---------------------------------------------------------------");
-    // println!("Adding new item to master list\n\n");
-    // all_things_list.push(thing);
-    // println!("---------------------------------------------------------------");
-    // println!("The complete list is below");
-    // println!("{:?}", all_things_list);
-    // println!("---------------------------------------------------------------");
-    // println!("The new list is below");
+            let mut all_things_list :Vec<ThingToDO> = Vec::new();
+            let thing = ThingToDO { description: "test".to_string(), status: TaskStatus::Closed };
+            all_things_list.push(thing);
+
+            // Create a List from all list items and highlight the currently selected one
+            let items = vec![
+                ListItem::new("Task1"),
+                ListItem::new("Task2"),];
+
+            
+            let list = List::new(items)
+            .block(Block::default().borders(Borders::ALL).title("List"))
+            .highlight_style(
+                Style::default()
+                    .bg(Color::LightGreen)
+                    .add_modifier(Modifier::BOLD),
+            )
+            .highlight_symbol(">> ");
+
+            // We can now render the item list
+            f.render_stateful_widget(list, chunks[0], &mut state);
+
+
+
+            // let block = Block::default()
+            //     .title("Block")
+            //     .borders(Borders::ALL)
+            //     .border_style(Style::default().fg(Color::White))
+            //     .border_type(BorderType::Rounded);
+            // f.render_widget(block, chunks[0]);
+        })?;
+    }
+}
+
+
+
 
     // for (number, thing_to_do) in all_things_list.iter().enumerate() {
     //     println!{"{} {}, {:?}", number, thing_to_do.description, thing_to_do.status};
@@ -158,5 +144,4 @@ fn main() -> Result<(), io::Error>{
 
     // Ok(());
 
-}
 
