@@ -1,147 +1,89 @@
-use std::convert::TryInto;
+use cursive::Cursive;
+use cursive::views::{Button, Dialog, DummyView, EditView,
+                     LinearLayout, SelectView};
+use cursive::traits::*;
+
+use std::env;
 use std::error::Error;
-use std::io;
-use std::io::{stdin,stdout,Write};
+use std::ffi::OsString;
+use std::fs::File;
+use std::process;
 
-use termion::{event::Key, input::MouseTerminal, raw::IntoRawMode, screen::AlternateScreen};
+fn main() {
+    let mut siv = cursive::default();
 
-use tui::Terminal;
-use tui::backend::TermionBackend;
-use tui::widgets::{Block, Borders, List, ListItem, ListState};
-use tui::layout::{Layout, Constraint, Direction};
-use tui::style::{Color, Modifier, Style};
+    let select = SelectView::<String>::new()
+        .on_submit(on_submit)
+        .with_name("select")
+        .fixed_size((70, 30));
+    let buttons = LinearLayout::vertical()
+        .child(Button::new("Update", get_things))
+        .child(Button::new("Add new", add_name))
+        .child(Button::new("Delete", delete_name))
+        .child(DummyView)
+        .child(Button::new("Quit", Cursive::quit));
 
-// Come back and add the way that will be used to navigate around the terminal
-enum HotkeyOptions {
+    siv.add_layer(Dialog::around(LinearLayout::vertical()
+            .child(select)
+            .child(DummyView)
+            .child(buttons))
+        .title("Things to do"));
+    
+    siv.run();
 }
 
-
-fn add_thing_to_do(task_list: &mut Vec<ThingToDO>) {
-    println!("You have chosen to add a new task - ");
-
-    // Get task info
-    println!("Please provide a description of the task - ");
-    let mut description1 = String::new();
-    std::io::stdin().read_line(&mut description1)
-        .expect("Failed to read line");
-    description1.pop();
-
-    // Push to list
-    task_list.push(ThingToDO {description:description1, status:status1});
-}
-
-fn delete_thing_to_do(task_list: &mut Vec<ThingToDO>) {
-    let task_numbers = 0..task_list.len();
-    println!("You have chosen to delete a task -");
-
-    // Get task to delete info
-    println!("What number is the task in the list?");
-    let mut task_number = String::new();
-    std::io::stdin().read_line(&mut task_number)
-        .expect("Failed to read line");
-
-    // get info from UI list
-    let task_number : usize = task_number.trim().parse()
-        .expect("Failed to read line");
-
-    //make sure user has provided a valid task number
-    if !task_numbers.contains(&task_number) {
-        println!("No such task exists - [aborting]");
-        return
+fn add_name(s: &mut Cursive) {
+    fn ok(s: &mut Cursive, name: &str) {
+        s.call_on_name("select", |view: &mut SelectView<String>| {
+            view.add_item_str(name)
+        });
+        s.pop_layer();
     }
 
-    //confirm deletion
-    println!("Are you sure you want to delete ---- {:?} ---- [Type N to cancel or ANY key to Continue]", task_list[task_number].description);
-    let mut confirm_delete = String::new();
-    std::io::stdin().read_line(&mut confirm_delete)
-        .expect("Failed to read line");    
-
-    if confirm_delete.to_string().trim() == "N".to_string() {
-        println!("Not deleting - [aborting]");
-        return
-    }
-
-    // finally - delete
-    task_list.remove(task_number.try_into().unwrap()); //Put un checks before deleting
+    s.add_layer(Dialog::around(EditView::new()
+            .on_submit(ok)
+            .with_name("name")
+            .fixed_width(35))
+        .title("Enter a new name")
+        .button("Ok", |s| {
+            let name =
+                s.call_on_name("name", |view: &mut EditView| {
+                    view.get_content()
+                }).unwrap();
+            ok(s, &name);
+        })
+        .button("Cancel", |s| {
+            s.pop_layer();
+        }));
 }
 
-// fn finish_someting(task_list: &mut Vec<ThingToDO>) {
-    // finish this later - make this log a completion date - i had questions about editing a Vec<ThingToDo>
-
-
-
-
-// TUI - LIST APP STRUCT //
-/// This struct holds the current state of the app. In particular, it has the `items` field which is a wrapper
-/// around `ListState`. Keeping track of the items state let us render the associated widget with its state
-/// and have access to features such as natural scrolling.
-///
-/// Check the event handling at the bottom to see how to change the state on incoming events.
-/// Check the drawing logic for items on how to specify the highlighting style for selected items.
-
-fn main() -> Result<(), std::io::Error>{
-
-    let stdout = std::io::stdout().into_raw_mode()?;
-    let backend = TermionBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-    let mut state = ListState::default();
-    loop {
-        terminal.draw(|f| {
-            let chunks = Layout::default()
-                .direction(Direction::Vertical)
-                .margin(1)
-                .constraints(
-                    [
-                        Constraint::Percentage(70),
-                        Constraint::Percentage(20),
-                    ].as_ref()
-                )
-                .split(f.size());
-
-            let mut all_things_list :Vec<ThingToDO> = Vec::new();
-            let thing = ThingToDO { description: "test".to_string(), status: TaskStatus::Closed };
-            all_things_list.push(thing);
-
-            // Create a List from all list items and highlight the currently selected one
-            let items = vec![
-                ListItem::new("Task1"),
-                ListItem::new("Task2"),];
-
-            
-            let list = List::new(items)
-            .block(Block::default().borders(Borders::ALL).title("List"))
-            .highlight_style(
-                Style::default()
-                    .bg(Color::LightGreen)
-                    .add_modifier(Modifier::BOLD),
-            )
-            .highlight_symbol(">> ");
-
-            // We can now render the item list
-            f.render_stateful_widget(list, chunks[0], &mut state);
-
-
-
-            // let block = Block::default()
-            //     .title("Block")
-            //     .borders(Borders::ALL)
-            //     .border_style(Style::default().fg(Color::White))
-            //     .border_type(BorderType::Rounded);
-            // f.render_widget(block, chunks[0]);
-        })?;
+fn delete_name(s: &mut Cursive) {
+    let mut select = s.find_name::<SelectView<String>>("select").unwrap();
+    match select.selected_id() {
+        None => s.add_layer(Dialog::info("No name to remove")),
+        Some(focus) => {
+            select.remove_item(focus);
+        }
     }
 }
 
+fn on_submit(s: &mut Cursive, name: &str) {
+    s.add_layer(Dialog::text(format!("Name: {}\nAwesome: yes", name))
+        .title(format!("{}'s info", name))
+        .button("Quit", |s| { s.pop_layer();}));
+}
+
+fn get_things(s: &mut Cursive) {
+    let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
+    let contents = std::fs::read_to_string(file_path)
+        .expect("Something went wrong reading the file");
+
+    s.call_on_name("select", |view: &mut SelectView<String>| {
+        view.add_item_str(contents)
+    });
+}
 
 
-
-    // for (number, thing_to_do) in all_things_list.iter().enumerate() {
-    //     println!{"{} {}, {:?}", number, thing_to_do.description, thing_to_do.status};
-    // }
-    // println!("---------------------------------------------------------------");
-    // println!("{:?}", all_things_list);
-    // println!("---------------------------------------------------------------");
-
-    // Ok(());
-
-
+// fn main() {
+//     get_things();
+// }

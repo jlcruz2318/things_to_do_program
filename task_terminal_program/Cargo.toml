@@ -8,7 +8,5 @@ edition = "2018"
 
 [dependencies]
 csv = "1.1"
-serde = "1.0.117"
-serde_derive="1.0"
-tui = "0.12"
-termion = "1.5"
+cursive = "0.16"
+serde = { version = "1", features = ["derive"] }

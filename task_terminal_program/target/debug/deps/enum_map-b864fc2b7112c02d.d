@@ -1,0 +1,11 @@
+/home/check0ut/Projects/things_to_do_program/task_terminal_program/target/debug/deps/enum_map-b864fc2b7112c02d.rmeta: /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/lib.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/enum_map_impls.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/internal.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/iter.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/serde.rs
+
+/home/check0ut/Projects/things_to_do_program/task_terminal_program/target/debug/deps/libenum_map-b864fc2b7112c02d.rlib: /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/lib.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/enum_map_impls.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/internal.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/iter.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/serde.rs
+
+/home/check0ut/Projects/things_to_do_program/task_terminal_program/target/debug/deps/enum_map-b864fc2b7112c02d.d: /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/lib.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/enum_map_impls.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/internal.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/iter.rs /home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/serde.rs
+
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/lib.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/enum_map_impls.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/internal.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/iter.rs:
+/home/check0ut/.cargo/registry/src/github.com-1ecc6299db9ec823/enum-map-0.6.4/src/serde.rs:
