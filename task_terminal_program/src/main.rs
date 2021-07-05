@@ -45,7 +45,7 @@ fn load_existing_todos(s: &mut Cursive, todo_list: Rc<RefCell<Vec<String>>>) {
     // Create vec for the to do items
     let mut todo_list: RefMut<_> = todo_list.borrow_mut();
     // For now this will be a static path - later need to update to a server request
-    let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
+    let file_path = "/tasks";
     let contents = read_lines(file_path)
         .expect("Something went wrong reading the file");
     s.call_on_name("select", |view: &mut SelectView<String>| {
@@ -69,7 +69,7 @@ fn add_todo(s: &mut Cursive) {
             view.add_item_str(name);
 
             let new_list = view.iter();
-            let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
+            let file_path = "/tasks";
             let mut file = File::create(file_path).unwrap();
 
             for task in new_list {
@@ -107,7 +107,7 @@ fn delete_todo(s: &mut Cursive) {
         Some(focus) => {
             select.remove_item(focus);
             let new_list = select.iter();
-            let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
+            let file_path = "/tasks";
             let mut file = File::create(file_path).unwrap();
             for task in new_list {
                 writeln!(&mut file, "{}", task.1).unwrap();
