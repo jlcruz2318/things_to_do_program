@@ -32,30 +32,24 @@ fn main() {
             .child(DummyView)
             .child(buttons))
         .title("Things to do"));
-    
-    // Load existing todo list - this will eventually tie to a server
-    let todo_items: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
-    let mut todo_items = load_existing_todos(&mut siv, todo_items);
 
+    load_existing_todos(&mut siv);
+    siv.add_global_callback('d', delete_todo);
+    siv.add_global_callback('a', add_todo);
     siv.run();
-    println!("{:?}", todo_items)
 }
 
-fn load_existing_todos(s: &mut Cursive, todo_list: Rc<RefCell<Vec<String>>>) {
-    // Create vec for the to do items
-    let mut todo_list: RefMut<_> = todo_list.borrow_mut();
+fn load_existing_todos(s: &mut Cursive) {
     // For now this will be a static path - later need to update to a server request
-    let file_path = "/tasks";
+    let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
     let contents = read_lines(file_path)
-        .expect("Something went wrong reading the file");
+        .expect("Something went wrong reading source");
     s.call_on_name("select", |view: &mut SelectView<String>| {
         for line in contents {
             if let Ok(task) = line {
                 view.add_item_str(&task);
-                todo_list.push(task);
             }
         }
-    
     });
 }
 
@@ -69,13 +63,12 @@ fn add_todo(s: &mut Cursive) {
             view.add_item_str(name);
 
             let new_list = view.iter();
-            let file_path = "/tasks";
+            let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
             let mut file = File::create(file_path).unwrap();
 
             for task in new_list {
                 writeln!(&mut file, "{}", task.1).unwrap()
             }
-            
         });
         s.pop_layer();
     }
@@ -107,13 +100,12 @@ fn delete_todo(s: &mut Cursive) {
         Some(focus) => {
             select.remove_item(focus);
             let new_list = select.iter();
-            let file_path = "/tasks";
+            let file_path = "/home/check0ut/Projects/things_to_do_program/task_terminal_program/src/tasks";
             let mut file = File::create(file_path).unwrap();
             for task in new_list {
                 writeln!(&mut file, "{}", task.1).unwrap();
                 }
-            ;
-            
+            ;     
         }
     }
 }
