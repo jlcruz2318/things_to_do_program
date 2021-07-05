@@ -10,3 +10,7 @@ edition = "2018"
 csv = "1.1"
 cursive = "0.16"
 serde = { version = "1", features = ["derive"] }
+
+
+[dependencies.redis]
+version = "*"
